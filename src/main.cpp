@@ -2,8 +2,9 @@
 #include <WiFi.h>
 const char *SSID = "Breath of the Wifi";
 const char *PWD = "supervolcano55";
+const char *HUTAO = "192.168.0.193";
 void connectToWiFi() {
-  Serial.print("Connectiog to ");
+  Serial.print("Connecting to ");
  
   WiFi.begin(SSID, PWD);
   Serial.println(SSID);
@@ -17,12 +18,14 @@ void connectToWiFi() {
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Callback - ");
+  Serial.println(topic);
   Serial.print("Message:");
 
   for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+    Serial.print(char(payload[i]));
   }
   Serial.println();
+  Serial.println(length);
 }
 
 
@@ -31,10 +34,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // MQTT client
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient); 
-char *mqttServer = "10.0.0.15";
+//char *mqttServer = HUTAO;
 int mqttPort = 1616;
 void setupMQTT() {
-  mqttClient.setServer(mqttServer, mqttPort);
+  mqttClient.setServer(HUTAO, mqttPort);
   // set the callback function
   mqttClient.setCallback(callback);
 }
